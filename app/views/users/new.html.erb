@@ -1,18 +1,22 @@
-<%= form_for [@user, @user_addresses] do |f| %>
+<%= form_for @user, url: users_path do |f| %>
+
   <%= f.label :name %>
   <%= f.text_field :name %>
 
-  <%= f.label :address %>
-  <%= f.text_field :address %>
+  <%= f.fields_for :user_addresses do |field| %>
+       <%= field.label :address %>
+       <%= field.text_field :address %>
 
-  <%= f.label :city %>
-  <%= f.text_field :city %>
+       <%= field.label :city %>
+       <%= field.text_field :city %>
 
-  <%= f.label :state %>
-  <%= f.text_field :state %>
+       <%= field.label :state %>
+       <%= field.text_field :state %>
 
-  <%= f.label :zip %>
-  <%= f.text_field :zip %>
+       <%= field.label :zip %>
+       <%= field.text_field :zip %>
+
+   <% end %>
 
   <%= f.label :email %>
   <%= f.email_field :email %>
