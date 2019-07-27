@@ -2,17 +2,23 @@
   <%= f.label :name %>
   <%= f.text_field :name %>
 
-  <%= f.label :address %>
-  <%= f.text_field :address %>
+  <%= f.fields_for :user_addresses do |user_address| %>
+       <%= user_address.label :address %>
+       <%= user_address.text_field :address %>
 
-  <%= f.label :city %>
-  <%= f.text_field :city %>
+       <%= user_address.label :city %>
+       <%= user_address.text_field :city %>
 
-  <%= f.label :state %>
-  <%= f.text_field :state %>
+       <%= user_address.label :state %>
+       <%= user_address.text_field :state %>
 
-  <%= f.label :zip %>
-  <%= f.text_field :zip %>
+       <%= user_address.label :zip %>
+       <%= user_address.text_field :zip %>
+
+       <%= user_address.label :alias %>
+       <%= user_address.text_field :alias %>
+
+   <% end %>
 
   <%= f.label :email %>
   <%= f.email_field :email %>
