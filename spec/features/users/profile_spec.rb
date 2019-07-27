@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe "User Profile Path" do
   describe "As a registered user" do
     before :each do
-      @user = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'megan@example.com', password: 'securepassword')
-      @admin = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'admin@example.com', password: 'securepassword')
+      @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
+      @admin = User.create!(name: 'Megan', email: 'admin@example.com', password: 'securepassword')
+      @user.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @admin.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
     end
 
     it "I can view my profile page" do
@@ -13,8 +15,8 @@ RSpec.describe "User Profile Path" do
 
       expect(page).to have_content(@user.name)
       expect(page).to have_content(@user.email)
-      expect(page).to have_content(@user.address)
-      expect(page).to have_content("#{@user.city} #{@user.state} #{@user.zip}")
+      expect(page).to have_content(@user.user_addresses.first.address)
+      expect(page).to have_content("#{@user.user_addresses.first.city} #{@user.user_addresses.first.state} #{@user.user_addresses.first.zip}")
       expect(page).to_not have_content(@user.password)
       expect(page).to have_link('Edit')
     end
@@ -36,6 +38,7 @@ RSpec.describe "User Profile Path" do
       city = 'new town'
       state = 'NY'
       zip = '12034'
+      nickname = 'Work'
 
       fill_in "Name", with: name
       fill_in "Email", with: email
@@ -43,6 +46,7 @@ RSpec.describe "User Profile Path" do
       fill_in "City", with: city
       fill_in "State", with: state
       fill_in "Zip", with: zip
+      fill_in "Alias", with: nickname
       click_button 'Update Profile'
 
       expect(current_path).to eq(profile_path)
@@ -51,6 +55,7 @@ RSpec.describe "User Profile Path" do
       expect(page).to have_content(name)
       expect(page).to have_content(email)
       expect(page).to have_content(address)
+      expect(page).to have_content(nickname)
       expect(page).to have_content("#{city} #{state} #{zip}")
     end
 

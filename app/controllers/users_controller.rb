@@ -8,10 +8,12 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @user_addresses = @user.user_addresses.new
   end
 
   def create
     @user = User.new(user_params)
+    @user.user_addresses.new(address_params[:user_addresses_attributes]['0'])
     if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "Welcome, #{@user.name}!"
@@ -32,6 +34,9 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
+    unless address_params.empty?
+      @user.user_addresses.update(address_params[:user_addresses_attributes]['0'])
+    end
     if @user.update(user_params)
       flash[:notice] = 'Profile has been updated!'
       redirect_to profile_path
@@ -44,6 +49,10 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :address, :city, :state, :zip, :email, :password)
+    params.require(:user).permit(:name, :email, :password)
+  end
+
+  def address_params
+    params.require(:user).permit(user_addresses_attributes: [:address, :city, :state, :zip, :alias])
   end
 end
