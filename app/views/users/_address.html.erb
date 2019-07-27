@@ -1,5 +1,7 @@
 <h1><%= @user.name %></h1>
 <p><%= @user.email %></p>
-<p><%= @user.user_addresses.first.address %></p>
-<p><%= @user.user_addresses.first.alias %></p>
-<p><%= @user.user_addresses.first.city %> <%= @user.user_addresses.first.state %> <%= @user.user_addresses.first.zip %></p>
+<% @user.user_addresses.each do |user_address| %>
+  <p><%= user_address.address %></p>
+  <p><%= user_address.alias %></p>
+  <p><%= user_address.city %> <%= user_address.state %> <%= user_address.zip %></p>
+<% end %>
