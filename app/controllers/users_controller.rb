@@ -34,6 +34,7 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
+    @user.user_addresses.update(address_params[:user_addresses_attributes]['0'])
     if @user.update(user_params)
       flash[:notice] = 'Profile has been updated!'
       redirect_to profile_path
@@ -47,7 +48,6 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password)
-    # params.require(user: :user_addresses).permit(:address, :city, :state, :zip)
   end
 
   def address_params
