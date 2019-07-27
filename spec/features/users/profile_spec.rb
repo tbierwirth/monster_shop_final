@@ -59,6 +59,29 @@ RSpec.describe "User Profile Path" do
       expect(page).to have_content("#{city} #{state} #{zip}")
     end
 
+    it "I can add a new address to my account" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      visit profile_path
+      click_on 'Edit'
+
+      within '#new-address' do
+        fill_in "Address", with: '321 Work St'
+        fill_in "City", with: 'Aurora'
+        fill_in "State", with: 'CO'
+        fill_in "Zip", with: '80012'
+        fill_in "Alias", with: 'Work'
+
+        click_on 'Add Address'
+      end
+
+      expect(current_path).to eq(profile_path)
+      expect(page).to have_content('321 Work St')
+      expect(page).to have_content('Aurora')
+      expect(page).to have_content('CO')
+      expect(page).to have_content('80012')
+      expect(page).to have_content('Work')
+    end
+
     it "I can update my password" do
       visit login_path
 
