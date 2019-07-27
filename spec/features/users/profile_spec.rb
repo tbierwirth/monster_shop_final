@@ -38,6 +38,7 @@ RSpec.describe "User Profile Path" do
       city = 'new town'
       state = 'NY'
       zip = '12034'
+      nickname = 'Work'
 
       fill_in "Name", with: name
       fill_in "Email", with: email
@@ -45,6 +46,7 @@ RSpec.describe "User Profile Path" do
       fill_in "City", with: city
       fill_in "State", with: state
       fill_in "Zip", with: zip
+      fill_in "Alias", with: nickname
       click_button 'Update Profile'
 
       expect(current_path).to eq(profile_path)
@@ -53,6 +55,7 @@ RSpec.describe "User Profile Path" do
       expect(page).to have_content(name)
       expect(page).to have_content(email)
       expect(page).to have_content(address)
+      expect(page).to have_content(nickname)
       expect(page).to have_content("#{city} #{state} #{zip}")
     end
 
