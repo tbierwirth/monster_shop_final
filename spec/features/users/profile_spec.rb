@@ -40,13 +40,15 @@ RSpec.describe "User Profile Path" do
       zip = '12034'
       nickname = 'Work'
 
-      fill_in "Name", with: name
-      fill_in "Email", with: email
-      fill_in "Address", with: address
-      fill_in "City", with: city
-      fill_in "State", with: state
-      fill_in "Zip", with: zip
-      fill_in "Alias", with: nickname
+        fill_in "Name", with: name
+        fill_in "Email", with: email
+      within '#main-address' do
+        fill_in "Address", with: address
+        fill_in "City", with: city
+        fill_in "State", with: state
+        fill_in "Zip", with: zip
+        fill_in "Alias", with: nickname
+      end
       click_button 'Update Profile'
 
       expect(current_path).to eq(profile_path)
@@ -75,11 +77,18 @@ RSpec.describe "User Profile Path" do
       end
 
       expect(current_path).to eq(profile_path)
+      expect(page).to have_content('123 Main St')
+      expect(page).to have_content('Denver')
+      expect(page).to have_content('CO')
+      expect(page).to have_content('80218')
+      expect(page).to have_content('Home')
+
       expect(page).to have_content('321 Work St')
       expect(page).to have_content('Aurora')
       expect(page).to have_content('CO')
       expect(page).to have_content('80012')
       expect(page).to have_content('Work')
+      save_and_open_page
     end
 
     it "I can update my password" do
