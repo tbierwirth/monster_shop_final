@@ -88,7 +88,6 @@ RSpec.describe "User Profile Path" do
       expect(page).to have_content('CO')
       expect(page).to have_content('80012')
       expect(page).to have_content('Work')
-      save_and_open_page
     end
 
     it "I can update my password" do

@@ -1,8 +1,37 @@
+<h1>Edit Profile</h1>
 <%= form_for @user do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
+  <section id='main-address'>
+    <%= f.fields_for :user_addresses do |user_address| %>
+         <%= user_address.label :address %>
+         <%= user_address.text_field :address %>
 
-  <%= f.fields_for :user_addresses do |user_address| %>
+         <%= user_address.label :city %>
+         <%= user_address.text_field :city %>
+
+         <%= user_address.label :state %>
+         <%= user_address.text_field :state %>
+
+         <%= user_address.label :zip %>
+         <%= user_address.text_field :zip %>
+
+         <%= user_address.label :alias %>
+         <%= user_address.text_field :alias %>
+
+     <% end %>
+   </section>
+
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+
+  <%= f.submit 'Update Profile' %>
+<% end %>
+
+<h1>New Address</h1>
+<section id='new-address'>
+  <%= form_for @user do |f| %>
+    <%= f.fields_for :user_addresses do |user_address| %>
        <%= user_address.label :address %>
        <%= user_address.text_field :address %>
 
@@ -17,11 +46,7 @@
 
        <%= user_address.label :alias %>
        <%= user_address.text_field :alias %>
-
-   <% end %>
-
-  <%= f.label :email %>
-  <%= f.email_field :email %>
-
-  <%= f.submit 'Update Profile' %>
-<% end %>
+     <% end %>
+    <%= f.submit 'Add Address', action: 'new' %>
+  <% end %>
+</section>
