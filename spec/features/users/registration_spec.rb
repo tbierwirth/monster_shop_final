@@ -18,12 +18,15 @@ RSpec.describe 'User Registration' do
       fill_in 'City', with: 'Denver'
       fill_in 'State', with: 'CO'
       fill_in 'Zip', with: '80218'
+      fill_in 'Alias', with: 'Home'
       fill_in 'Email', with: 'megan@example.com'
       fill_in 'Password', with: 'securepassword'
       fill_in 'Password confirmation', with: 'securepassword'
       click_button 'Register'
 
+      user = User.last
       expect(current_path).to eq(profile_path)
+      expect(user.user_addresses.first.address).to eq('123 Main St')
       expect(page).to have_content('Welcome, Megan!')
     end
 
@@ -39,6 +42,7 @@ RSpec.describe 'User Registration' do
         expect(page).to have_content("city: [\"can't be blank\"]")
         expect(page).to have_content("state: [\"can't be blank\"]")
         expect(page).to have_content("zip: [\"can't be blank\"]")
+        expect(page).to have_content("alias: [\"can't be blank\"]")
         expect(page).to have_content("email: [\"can't be blank\"]")
         expect(page).to have_content("password: [\"can't be blank\"]")
       end
