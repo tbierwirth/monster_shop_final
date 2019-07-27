@@ -12,8 +12,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    binding.pry
     @user = User.new(user_params)
+    @user.user_addresses.new(address_params[:user_addresses_attributes]['0'])
     if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "Welcome, #{@user.name}!"
@@ -46,7 +46,11 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :user_addresses, :email, :password)
+    params.require(:user).permit(:name, :email, :password)
     # params.require(user: :user_addresses).permit(:address, :city, :state, :zip)
+  end
+
+  def address_params
+    params.require(:user).permit(user_addresses_attributes: [:address, :city, :state, :zip, :alias])
   end
 end
