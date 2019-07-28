@@ -42,7 +42,6 @@ RSpec.describe 'User Registration' do
         expect(page).to have_content("city: [\"can't be blank\"]")
         expect(page).to have_content("state: [\"can't be blank\"]")
         expect(page).to have_content("zip: [\"can't be blank\"]")
-        expect(page).to have_content("alias: [\"can't be blank\"]")
         expect(page).to have_content("email: [\"can't be blank\"]")
         expect(page).to have_content("password: [\"can't be blank\"]")
       end
