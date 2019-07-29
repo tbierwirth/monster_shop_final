@@ -11,7 +11,7 @@ RSpec.describe "User Profile Path" do
     it "I can edit an address" do
       visit profile_path
 
-      within "address-#{@user_address.id}" do
+      within "#address-#{@user_address.id}" do
         click_on 'Edit Address'
       end
 
@@ -23,7 +23,7 @@ RSpec.describe "User Profile Path" do
       click_on 'Update Address'
 
       expect(current_path).to eq(profile_path)
-      within "address-#{@user_address.id}" do
+      within "#address-#{@user_address.id}" do
         expect(page).to have_content("321 New St")
         expect(page).to have_content("Aurora")
         expect(page).to have_content("80012")
