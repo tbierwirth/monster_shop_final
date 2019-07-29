@@ -18,7 +18,6 @@ RSpec.describe 'User Registration' do
       fill_in 'City', with: 'Denver'
       fill_in 'State', with: 'CO'
       fill_in 'Zip', with: '80218'
-      fill_in 'Alias', with: 'Home'
       fill_in 'Email', with: 'megan@example.com'
       fill_in 'Password', with: 'securepassword'
       fill_in 'Password confirmation', with: 'securepassword'
