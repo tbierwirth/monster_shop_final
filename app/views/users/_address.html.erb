@@ -1,7 +1,10 @@
 <h1><%= @user.name %></h1>
 <p><%= @user.email %></p>
-<% @user.addresses.each do |user_address| %>
-  <p><%= user_address.address %></p>
-  <p><%= user_address.alias %></p>
-  <p><%= user_address.city %> <%= user_address.state %> <%= user_address.zip %></p>
+<% @user.addresses.each do |address| %>
+  <section id="address-<%= address.id %>">
+    <p><%= address.address %></p>
+    <p><%= address.alias %></p>
+    <p><%= address.city %> <%= address.state %> <%= address.zip %></p>
+    <%= link_to 'Edit Address', edit_user_address_path(address.id) %>
+  </section>
 <% end %>
