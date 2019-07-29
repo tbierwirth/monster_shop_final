@@ -11,6 +11,7 @@ class User::AddressesController < ApplicationController
       flash[:notice] = "A new address has been added to your profile"
     else
       generate_flash(@address)
+      render :new
     end
   end
 
