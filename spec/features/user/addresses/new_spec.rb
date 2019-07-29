@@ -12,7 +12,7 @@ RSpec.describe "User Profile Path" do
       visit profile_path
       click_on 'New Address'
 
-      expect(current_path).to eq(new_address_path)
+      expect(current_path).to eq(new_user_address_path)
       fill_in "Address", with: '321 Work St'
       fill_in "City", with: 'Aurora'
       fill_in "State", with: 'CO'
