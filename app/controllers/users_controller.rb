@@ -35,7 +35,11 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     unless address_params.empty?
-      @user.user_addresses.update(address_params[:user_addresses_attributes]['0'])
+      if params[:commit] == 'Add Address'
+        @user.user_addresses.create(address_params[:user_addresses_attributes]['0'])
+      else
+        @user.user_addresses.update(address_params[:user_addresses_attributes]['0'])
+      end
     end
     if @user.update(user_params)
       flash[:notice] = 'Profile has been updated!'
