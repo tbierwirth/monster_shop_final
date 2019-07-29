@@ -3,7 +3,7 @@
   <%= f.label :name %>
   <%= f.text_field :name %>
 
-  <%= f.fields_for :user_addresses do |user_address| %>
+  <%= f.fields_for :addresses do |user_address| %>
        <%= user_address.label :address %>
        <%= user_address.text_field :address %>
 

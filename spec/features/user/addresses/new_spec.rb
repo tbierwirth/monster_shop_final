@@ -4,7 +4,7 @@ RSpec.describe "User Profile Path" do
   describe "As a registered user" do
     before :each do
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @user_address = @user.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @user_address = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
     end
 
     it "I can add a new address to my profile" do
@@ -13,15 +13,13 @@ RSpec.describe "User Profile Path" do
       click_on 'New Address'
 
       expect(current_path).to eq(new_address_path)
-      within '#new-address' do
-        fill_in "Address", with: '321 Work St'
-        fill_in "City", with: 'Aurora'
-        fill_in "State", with: 'CO'
-        fill_in "Zip", with: '80012'
-        fill_in "Alias", with: 'Work'
+      fill_in "Address", with: '321 Work St'
+      fill_in "City", with: 'Aurora'
+      fill_in "State", with: 'CO'
+      fill_in "Zip", with: '80012'
+      fill_in "Alias", with: 'Work'
 
-        click_on 'Create Address'
-      end
+      click_on 'Create Address'
 
       expect(current_path).to eq(profile_path)
       expect(page).to have_content('123 Main St')
