@@ -1,25 +1,18 @@
-<%= form_for(@user, url: users_path) do |f| %>
-
+<%= form_for @user do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
 
-  <%= f.fields_for :user_addresses do |user_address| %>
-       <%= user_address.label :address %>
-       <%= user_address.text_field :address %>
+  <%= label_tag :address %>
+  <%= text_field_tag :address %>
 
-       <%= user_address.label :city %>
-       <%= user_address.text_field :city %>
+  <%= label_tag :city %>
+  <%= text_field_tag :city %>
 
-       <%= user_address.label :state %>
-       <%= user_address.text_field :state %>
+  <%= label_tag :state %>
+  <%= text_field_tag :state %>
 
-       <%= user_address.label :zip %>
-       <%= user_address.text_field :zip %>
-
-       <%= user_address.label :alias %>
-       <%= user_address.text_field :alias %>
-
-   <% end %>
+  <%= label_tag :zip %>
+  <%= text_field_tag :zip %>
 
   <%= f.label :email %>
   <%= f.email_field :email %>

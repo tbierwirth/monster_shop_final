@@ -8,18 +8,18 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @user_addresses = @user.user_addresses.new
   end
 
   def create
     @user = User.new(user_params)
-    @user.user_addresses.new(address_params[:user_addresses_attributes]['0'])
-    if @user.save
+    @address = @user.addresses.new(address_params)
+    if @user.save && @address.save
       session[:user_id] = @user.id
       flash[:notice] = "Welcome, #{@user.name}!"
       redirect_to profile_path
     else
       generate_flash(@user)
+      generate_flash(@address)
       render :new
     end
   end
@@ -34,13 +34,6 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-    unless address_params.empty?
-      if params[:commit] == 'Add Address'
-        @user.user_addresses.create(address_params[:user_addresses_attributes]['0'])
-      else
-        @user.user_addresses.update(address_params[:user_addresses_attributes]['0'])
-      end
-    end
     if @user.update(user_params)
       flash[:notice] = 'Profile has been updated!'
       redirect_to profile_path
@@ -57,6 +50,6 @@ class UsersController < ApplicationController
   end
 
   def address_params
-    params.require(:user).permit(user_addresses_attributes: [:address, :city, :state, :zip, :alias])
+    params.permit(:address, :city, :state, :zip,)
   end
 end

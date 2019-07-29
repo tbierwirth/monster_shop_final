@@ -4,9 +4,9 @@ RSpec.describe 'User Show Page' do
   describe 'As an Admin' do
     before :each do
       @d_user = User.create(name: 'Brian', email: 'brian@example.com', password: 'securepassword')
-      @d_user.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @d_user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
       @admin = User.create(name: 'Sal', email: 'sal@example.com', password: 'securepassword', role: 'admin')
-      @admin.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @admin.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
     end
 
@@ -20,8 +20,8 @@ RSpec.describe 'User Show Page' do
       expect(current_path).to eq("/admin/users/#{@d_user.id}")
       expect(page).to have_content(@d_user.name)
       expect(page).to have_content(@d_user.email)
-      expect(page).to have_content(@d_user.user_addresses.first.address)
-      expect(page).to have_content("#{@d_user.user_addresses.first.city} #{@d_user.user_addresses.first.state} #{@d_user.user_addresses.first.zip}")
+      expect(page).to have_content(@d_user.addresses.first.address)
+      expect(page).to have_content("#{@d_user.addresses.first.city} #{@d_user.addresses.first.state} #{@d_user.addresses.first.zip}")
       expect(page).to_not have_content(@d_user.password)
       expect(page).to_not have_link('Edit')
       expect(page).to_not have_link('Change Password')

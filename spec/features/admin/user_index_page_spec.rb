@@ -5,13 +5,13 @@ RSpec.describe "Admin Users Index" do
     before :each do
       @merchant_1 = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @m_user = @merchant_1.users.create(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @m_user.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @m_user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
       @d_user = User.create(name: 'Brian', email: 'brian@example.com', password: 'securepassword')
-      @d_user.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @d_user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
       @a_user = User.create(name: 'Meg', email: 'meg@example.com', password: 'securepassword', role: 'admin')
-      @a_user.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @a_user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
       @admin = User.create(name: 'Sal', email: 'sal@example.com', password: 'securepassword', role: 'admin')
-      @admin.user_addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @admin.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
     end
 
