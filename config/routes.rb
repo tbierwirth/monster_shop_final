@@ -29,9 +29,8 @@ Rails.application.routes.draw do
   get '/profile/orders/:id', to: 'user/orders#show'
   delete '/profile/orders/:id', to: 'user/orders#cancel'
   namespace :user do
-    resources :addresses, only: [:new, :create]
+    resources :addresses, only: [:new, :create, :update, :edit]
   end
-  # get '/profile/addresses/new', to: 'user/addresses#new', as: 'new_address'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#login'
