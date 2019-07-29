@@ -34,5 +34,21 @@ RSpec.describe "User Profile Path" do
       expect(page).to have_content('80012')
       expect(page).to have_content('Work')
     end
+
+    it "I can't add a new address to my profile with incorrect info" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      visit profile_path
+      click_on 'New Address'
+
+      expect(current_path).to eq(new_user_address_path)
+
+      fill_in "Address", with: '321 Work St'
+      click_on 'Create Address'
+
+      expect(page).to have_content("city: [\"can't be blank\"]")
+      expect(page).to have_content("state: [\"can't be blank\"]")
+      expect(page).to have_content("zip: [\"can't be blank\"]")
+
+    end
   end
 end
