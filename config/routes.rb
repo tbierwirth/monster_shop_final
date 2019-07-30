@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   get '/profile/orders/:id', to: 'user/orders#show'
   delete '/profile/orders/:id', to: 'user/orders#cancel'
   namespace :user do
-    resources :addresses, only: [:new, :create, :update, :edit]
+    resources :addresses, only: [:new, :create, :update, :edit, :destroy]
   end
 
   get '/login', to: 'sessions#new'
