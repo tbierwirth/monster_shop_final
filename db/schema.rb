@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20190730040437) do
     t.string "city"
     t.string "state"
     t.integer "zip"
-    t.string "alias", default: "Home"
+    t.string "nickname", default: "Home"
     t.bigint "user_id"
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end

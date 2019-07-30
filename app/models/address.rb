@@ -6,6 +6,6 @@ class Address < ApplicationRecord
                         :city,
                         :state,
                         :zip,
-                        :alias
+                        :nickname
 
 end
