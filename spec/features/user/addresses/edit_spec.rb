@@ -21,7 +21,7 @@ RSpec.describe "User Profile Path" do
       fill_in 'Address', with: '321 New St'
       fill_in 'City', with: 'Aurora'
       fill_in 'Zip', with: '80012'
-      fill_in 'nickname', with: 'Work'
+      fill_in 'Nickname', with: 'Work'
 
       click_on 'Update Address'
 
