@@ -10,7 +10,9 @@ class User::OrdersController < ApplicationController
   end
 
   def create
+    address = current_user.addresses.where(nickname: params[:order][:address_id]).first
     order = current_user.orders.new
+    order.update(address_id: address.id)
     order.save
       cart.items.each do |item|
         order.order_items.create({
