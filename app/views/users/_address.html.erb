@@ -5,6 +5,8 @@
     <p><%= address.address %></p>
     <p><%= address.alias %></p>
     <p><%= address.city %> <%= address.state %> <%= address.zip %></p>
-    <%= link_to 'Edit Address', edit_user_address_path(address.id) %>
+    <% unless current_admin? %>
+      <%= link_to 'Edit Address', edit_user_address_path(address.id) %>
+    <% end %>
   </section>
 <% end %>
