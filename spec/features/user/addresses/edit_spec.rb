@@ -5,7 +5,10 @@ RSpec.describe "User Profile Path" do
     before :each do
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
       @user_address = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      visit login_path
+      fill_in 'Email', with: @user.email
+      fill_in 'Password', with: @user.password
+      click_button 'Log In'
     end
 
     it "I can edit an address" do
@@ -24,6 +27,7 @@ RSpec.describe "User Profile Path" do
 
       expect(current_path).to eq(profile_path)
       within "#address-#{@user_address.id}" do
+        @user_address.reload
         expect(page).to have_content("321 New St")
         expect(page).to have_content("Aurora")
         expect(page).to have_content("80012")
