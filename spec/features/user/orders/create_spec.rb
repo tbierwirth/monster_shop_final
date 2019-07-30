@@ -12,7 +12,10 @@ RSpec.describe 'Create Order' do
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
       @address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
       @address_2 = @user.addresses.create(address: '321 Rocky Rd', city: 'Aurora', state: 'CO', zip: 80012, nickname: 'Work')
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      visit login_path
+      fill_in 'Email', with: @user.email
+      fill_in 'Password', with: @user.password
+      click_button 'Log In'
     end
 
     it 'I can click a link to get to create an order' do
@@ -39,6 +42,30 @@ RSpec.describe 'Create Order' do
         expect(page).to have_link(order.id)
         expect(page).to have_content(@address_2.address)
       end
+    end
+
+    it 'I can not checkout if I have deleted all of my addresses' do
+      visit item_path(@ogre)
+      click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+
+      visit profile_path
+
+      within "#address-#{@address_1.id}" do
+        click_on 'Delete Address'
+      end
+
+      within "#address-#{@address_2.id}" do
+        click_on 'Delete Address'
+      end
+
+      @user.addresses.reload
+      
+      visit cart_path
+      expect(page).to_not have_button('Check Out')
     end
   end
 
