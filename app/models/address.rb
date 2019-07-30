@@ -7,5 +7,7 @@ class Address < ApplicationRecord
                         :state,
                         :zip,
                         :nickname
-
+  def shipped_orders?
+    orders.where(status: 'shipped').exists?
+  end
 end
