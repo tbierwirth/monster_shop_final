@@ -20,7 +20,7 @@
     <% if current_user %>
       <%= form_for @order do |f| %>
         <%= f.label :address %>
-        <%= f.collection_select :address_id, current_user.address_names, :to_s, :to_s, :prompt => 'Select' %>
+        <%= f.collection_select :address_id, current_user.address_names, :to_s, :to_s %>
 
         <%= f.submit 'Check Out' %>
       <% end %>
