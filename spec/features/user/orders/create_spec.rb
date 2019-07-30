@@ -10,7 +10,8 @@ RSpec.describe 'Create Order' do
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
+      @address_2 = @user.addresses.create(address: '321 Rocky Rd', city: 'Aurora', state: 'CO', zip: 80012, nickname: 'Work')
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
     end
 
@@ -21,6 +22,8 @@ RSpec.describe 'Create Order' do
       click_button 'Add to Cart'
       visit item_path(@hippo)
       click_button 'Add to Cart'
+
+      select "Home", :from => "Nickname"
 
       visit '/cart'
 
@@ -34,6 +37,7 @@ RSpec.describe 'Create Order' do
 
       within "#order-#{order.id}" do
         expect(page).to have_link(order.id)
+        expect(page).to have_content(@address.address)
       end
     end
   end
