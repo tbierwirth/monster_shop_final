@@ -11,6 +11,6 @@ RSpec.describe Address do
     it {should validate_presence_of :city}
     it {should validate_presence_of :state}
     it {should validate_presence_of :zip}
-    it {should validate_presence_of :alias}
+    it {should validate_presence_of :nickname}
   end
 end

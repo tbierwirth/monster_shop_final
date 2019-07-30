@@ -39,6 +39,6 @@ class User::AddressesController < ApplicationController
 
   private
   def address_params
-    params.require(:address).permit(:address, :city, :state, :zip, :alias)
+    params.require(:address).permit(:address, :city, :state, :zip, :nickname)
   end
 end

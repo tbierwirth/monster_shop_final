@@ -54,7 +54,7 @@ RSpec.describe Item do
       @review_4 = @ogre.reviews.create(title: 'So So', description: 'This Ogre is So so', rating: 2)
       @review_5 = @ogre.reviews.create(title: 'Okay', description: 'This Ogre is Okay', rating: 4)
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
       @order_1 = @user.orders.create!(address_id: @address_1.id)
       @order_2 = @user.orders.create!(address_id: @address_1.id)
       @order_3 = @user.orders.create!(address_id: @address_1.id)

@@ -4,7 +4,7 @@ RSpec.describe "User Profile Path" do
   describe "As a registered user" do
     before :each do
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @user_address = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
+      @user_address = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
     end
 
     it "I can add a new address to my profile" do
@@ -17,7 +17,7 @@ RSpec.describe "User Profile Path" do
       fill_in "City", with: 'Aurora'
       fill_in "State", with: 'CO'
       fill_in "Zip", with: '80012'
-      fill_in "Alias", with: 'Work'
+      fill_in "nickname", with: 'Work'
 
       click_on 'Create Address'
 

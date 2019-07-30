@@ -4,8 +4,8 @@ RSpec.describe "User Profile Path" do
   describe "As a registered user" do
     before :each do
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @user_address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
-      @user_address_2 = @user.addresses.create(address: '321 Rocky Rd', city: 'Castle Rock', state: 'CO', zip: 80109, alias: 'Work')
+      @user_address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
+      @user_address_2 = @user.addresses.create(address: '321 Rocky Rd', city: 'Castle Rock', state: 'CO', zip: 80109, nickname: 'Work')
       visit login_path
       fill_in 'Email', with: @user.email
       fill_in 'Password', with: @user.password
