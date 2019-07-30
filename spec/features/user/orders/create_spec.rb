@@ -23,10 +23,10 @@ RSpec.describe 'Create Order' do
       visit item_path(@hippo)
       click_button 'Add to Cart'
 
-      select "Home", :from => "Nickname"
 
       visit '/cart'
 
+      select "Work", :from => 'order[address_id]'
       click_button 'Check Out'
 
       order = Order.last
@@ -37,7 +37,7 @@ RSpec.describe 'Create Order' do
 
       within "#order-#{order.id}" do
         expect(page).to have_link(order.id)
-        expect(page).to have_content(@address.address)
+        expect(page).to have_content(@address_2.address)
       end
     end
   end
