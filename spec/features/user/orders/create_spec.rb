@@ -63,9 +63,12 @@ RSpec.describe 'Create Order' do
       end
 
       @user.addresses.reload
-      
+
       visit cart_path
       expect(page).to_not have_button('Check Out')
+
+      click_on 'here'
+      expect(current_path).to eq(new_user_address_path)
     end
   end
 
