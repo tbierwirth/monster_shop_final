@@ -3,6 +3,10 @@ class User::AddressesController < ApplicationController
     @address = Address.new
   end
 
+  def edit
+    @address = Address.find(params[:id])
+  end
+
   def create
     @user = current_user
     @address = @user.addresses.new(address_params)
@@ -12,6 +16,17 @@ class User::AddressesController < ApplicationController
     else
       generate_flash(@address)
       render :new
+    end
+  end
+
+  def update
+    @address = Address.find(params[:id])
+    if @address.update(address_params)
+      flash[:notice] = 'Address has been updated!'
+      redirect_to profile_path
+    else
+      generate_flash(@address)
+      render :edit
     end
   end
 
