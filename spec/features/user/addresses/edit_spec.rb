@@ -7,7 +7,7 @@ RSpec.describe "User Profile Path" do
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20.25, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
       @user_address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
-      @user_address_2 = @user.addresses.create(address: '312 Rock St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
+      @user_address_2 = @user.addresses.create(address: '312 Rock St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Work')
       @order_1 = @user.orders.create!(status: "shipped", address_id: @user_address_1.id)
       @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: true)
       visit login_path
