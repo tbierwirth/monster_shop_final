@@ -7,6 +7,8 @@ class Address < ApplicationRecord
                         :state,
                         :zip,
                         :nickname
+
+  validates :nickname, uniqueness: { scope: :user_id }
   def shipped_orders?
     orders.where(status: 'shipped').exists?
   end
