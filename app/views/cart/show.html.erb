@@ -1,36 +1,70 @@
 <h2>My Cart</h2>
-<% if cart.items.empty? %>
-  <p>Your Cart is Empty!</p>
-<% else %>
-<h3>Total: <%= number_to_currency(cart.grand_total) %></h3>
-  <% cart.items.each do |item| %>
-    <section id='item-<%= item.id%>'>
-      <h2><%= link_to item.name, "/items/#{item.id}" %></h2>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw">
-      <p>Price: <%= number_to_currency(item.price) %></p>
-      <p>Quantity: <%= cart.count_of(item.id) %></p>
-      <p>Subtotal: <%= number_to_currency(cart.subtotal_of(item.id)) %></p>
-      <p>Sold by: <%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %>, Inventory: <%= item.inventory %></p>
-      <%= button_to 'More of This!', "/cart/more/#{item.id}", method: :patch unless cart.limit_reached?(item.id) %>
-      <%= button_to 'Less of This!', "/cart/less/#{item.id}", method: :patch %>
-      <%= button_to 'Remove', "/cart/#{item.id}", method: :delete %>
-    </section>
-  <% end %>
-  <section id='checkout'>
-    <% if current_user %>
-      <% if current_user.addresses.empty? %>
-        <p>Please add an address to your account <%= link_to 'here', new_user_address_path %></p>
-      <% else %>
-        <%= form_for @order do |f| %>
-          <%= f.label :address %>
-          <%= f.collection_select :address_id, current_user.address_names, :to_s, :to_s %>
+  <section id="checkout">
+  <% if cart.items.empty? %>
+    <p>Your Cart is Empty!</p>
+  <% else %>
+  <div class="container mb-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"> </th>
+                <th scope="col">Item</th>
+                <th scope="col">Merchant</th>
+                <th scope="col">In Stock</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% cart.items.each do |item| %>
+              <tr>
+                <section id='item-<%= item.id%>'>
+                  <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw" width="50" height="50"></td>
+                  <td><%= link_to item.name, "/items/#{item.id}" %></td>
+                  <td><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %></td>
+                  <td><%= item.inventory %></td>
+                  <td><%= cart.count_of(item.id) %>
+                    <div class="float-right"><%= button_to 'More of This!', "/cart/more/#{item.id}", method: :patch unless cart.limit_reached?(item.id) %>
+                    <%= button_to 'Less of This!', "/cart/less/#{item.id}", method: :patch %></div></td>
+                  <td><%= number_to_currency(item.price) %></td>
+                  <td><%= number_to_currency(cart.subtotal_of(item.id)) %></td>
+                  <td class="text-left"><%= button_to 'Remove', "/cart/#{item.id}", method: :delete %></td>
+                </section>
+              </tr>
+            <% end %>
+            <tr><td></td><td></td><td></td><td></td><td></td><td><strong>Total: </strong></td><td class="text-left"><strong><%= number_to_currency(cart.grand_total) %></strong></td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col mb-2">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <%= button_to 'Empty Cart', '/cart', method: :delete, class:"btn btn-lg btn-block btn-danger" %>
+        </div>
+        <% if current_user %>
+          <% if current_user.addresses.empty? %>
+            <p>Please add an address to your account <%= link_to 'here', new_user_address_path %></p>
+          <% else %>
+            <div class="col-sm-12 col-md-6">
+              <%= form_for @order do |f| %>
+                <%= f.label :address %>
+                <%= f.collection_select :address_id, current_user.address_names, :to_s, :to_s %>
 
-          <%= f.submit 'Check Out' %>
+                <%= f.submit 'Check Out', class:"btn btn-lg btn-block btn-success" %>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+        <p> You must <%= link_to 'register', registration_path %> or <%= link_to 'log in', '/login' %> to finish checkout out. </p>
         <% end %>
       <% end %>
-    <% else %>
-      <p>You must <%= link_to 'register', registration_path %> or <%= link_to 'log in', login_path %> to checkout.</p>
-    <% end %>
-  </section>
-  <%= button_to 'Empty Cart', '/cart', method: :delete %>
-<% end %>
+    </div>
+  </div>
+</section>
