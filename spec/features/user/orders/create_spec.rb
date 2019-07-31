@@ -10,8 +10,12 @@ RSpec.describe 'Create Order' do
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, alias: 'Home')
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+      @address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
+      @address_2 = @user.addresses.create(address: '321 Rocky Rd', city: 'Aurora', state: 'CO', zip: 80012, nickname: 'Work')
+      visit login_path
+      fill_in 'Email', with: @user.email
+      fill_in 'Password', with: @user.password
+      click_button 'Log In'
     end
 
     it 'I can click a link to get to create an order' do
@@ -22,8 +26,10 @@ RSpec.describe 'Create Order' do
       visit item_path(@hippo)
       click_button 'Add to Cart'
 
+
       visit '/cart'
 
+      select "Work", :from => 'order[address_id]'
       click_button 'Check Out'
 
       order = Order.last
@@ -34,7 +40,35 @@ RSpec.describe 'Create Order' do
 
       within "#order-#{order.id}" do
         expect(page).to have_link(order.id)
+        expect(page).to have_content(@address_2.address)
       end
+    end
+
+    it 'I can not checkout if I have deleted all of my addresses' do
+      visit item_path(@ogre)
+      click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+
+      visit profile_path
+
+      within "#address-#{@address_1.id}" do
+        click_on 'Delete Address'
+      end
+
+      within "#address-#{@address_2.id}" do
+        click_on 'Delete Address'
+      end
+
+      @user.addresses.reload
+
+      visit cart_path
+      expect(page).to_not have_button('Check Out')
+
+      click_on 'here'
+      expect(current_path).to eq(new_user_address_path)
     end
   end
 

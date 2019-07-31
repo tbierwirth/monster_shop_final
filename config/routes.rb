@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   post '/orders', to: 'user/orders#create'
   get '/profile/orders', to: 'user/orders#index'
   get '/profile/orders/:id', to: 'user/orders#show'
+  patch '/profile/orders/:id', to: 'user/orders#update', as: 'update_order_address'
   delete '/profile/orders/:id', to: 'user/orders#cancel'
   namespace :user do
     resources :addresses, only: [:new, :create, :update, :edit, :destroy]

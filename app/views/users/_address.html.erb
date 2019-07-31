@@ -3,11 +3,13 @@
 <% @user.addresses.each do |address| %>
   <section id="address-<%= address.id %>">
     <p><%= address.address %></p>
-    <p><%= address.alias %></p>
+    <p><%= address.nickname %></p>
     <p><%= address.city %> <%= address.state %> <%= address.zip %></p>
     <% unless current_admin? %>
-      <%= link_to 'Edit Address', edit_user_address_path(address.id) %>
-      <%= link_to 'Delete Address', user_address_path(address.id), method: :delete %>
+      <% unless address.shipped_orders? %>
+        <%= link_to 'Edit Address', edit_user_address_path(address.id) %>
+        <%= link_to 'Delete Address', user_address_path(address.id), method: :delete %>
+      <% end %>
     <% end %>
   </section>
 <% end %>

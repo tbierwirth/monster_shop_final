@@ -10,7 +10,9 @@ class User::OrdersController < ApplicationController
   end
 
   def create
+    address = current_user.addresses.where(nickname: params[:order][:address_id]).first
     order = current_user.orders.new
+    order.update(address_id: address.id)
     order.save
       cart.items.each do |item|
         order.order_items.create({
@@ -27,6 +29,13 @@ class User::OrdersController < ApplicationController
   def cancel
     order = current_user.orders.find(params[:id])
     order.cancel
+    redirect_to "/profile/orders/#{order.id}"
+  end
+
+  def update
+    address = current_user.addresses.find_by(nickname: params[:order][:address_id])
+    order = Order.find(params[:id])
+    order.update(address_id: address.id)
     redirect_to "/profile/orders/#{order.id}"
   end
 end
