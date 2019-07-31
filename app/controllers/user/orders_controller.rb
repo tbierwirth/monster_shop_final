@@ -31,4 +31,11 @@ class User::OrdersController < ApplicationController
     order.cancel
     redirect_to "/profile/orders/#{order.id}"
   end
+
+  def update
+    address = current_user.addresses.find_by(nickname: params[:order][:address_id])
+    order = Order.find(params[:id])
+    order.update(address_id: address.id)
+    redirect_to "/profile/orders/#{order.id}"
+  end
 end
