@@ -40,6 +40,23 @@ RSpec.describe "User Profile Path" do
       end
     end
 
+    it 'I can not edit an address with an improperly filled out form' do
+      visit profile_path
+
+      within "#address-#{@user_address_2.id}" do
+        click_on 'Edit Address'
+      end
+
+      fill_in 'Address', with: '321 New St'
+      fill_in 'City', with: ''
+      fill_in 'Zip', with: '80012'
+      fill_in 'Nickname', with: 'Work'
+
+      click_on 'Update Address'
+
+      expect(page).to have_content("city: [\"can't be blank\"]")
+    end
+
     it 'I can not edit an address if there is a shipped order on it' do
       visit profile_path
 

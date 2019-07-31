@@ -14,12 +14,19 @@ RSpec.describe User do
   end
 
   describe 'Class Methods' do
-    it '.address_names' do
-      user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
-      address_1 = user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
-      address_2 = user.addresses.create(address: '321 Rocky Rd', city: 'Aurora', state: 'CO', zip: 80012, nickname: 'Work')
-
-      expect(user.address_names).to eq([address_1.nickname, address_2.nickname])
+    before :each do
+      @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
+      @address_1 = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
+      @address_2 = @user.addresses.create(address: '321 Rocky Rd', city: 'Aurora', state: 'CO', zip: 80012, nickname: 'Work')
     end
+    it '.address_names' do
+      expect(@user.address_names).to eq([@address_1.nickname, @address_2.nickname])
+    end
+
+    it '.find_address(nickname)' do
+      nickname = "Work"
+      expect(@user.find_address(nickname)).to eq(@address_2)
+    end
+
   end
 end
