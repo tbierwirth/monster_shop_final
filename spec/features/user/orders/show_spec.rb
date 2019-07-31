@@ -12,6 +12,7 @@ RSpec.describe 'Order Show Page' do
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 1 )
       @user = User.create!(name: 'Megan', email: 'megan@example.com', password: 'securepassword')
       @address = @user.addresses.create(address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Home')
+      @address_2 = @user.addresses.create(address: '321 Rock St', city: 'Denver', state: 'CO', zip: 80218, nickname: 'Work')
       @order_1 = @user.orders.create!(status: "packaged", address_id: @address.id)
       @order_2 = @user.orders.create!(status: "pending", address_id: @address.id)
       @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: true)
@@ -82,6 +83,16 @@ RSpec.describe 'Order Show Page' do
       expect(@order_item_3.fulfilled).to eq(false)
       expect(@giant.inventory).to eq(5)
       expect(@ogre.inventory).to eq(7)
+    end
+
+    it 'I can change the address on the order if it is pending' do
+      visit "/profile/orders/#{@order_2.id}"
+
+      select "Work", :from => 'order[address_id]'
+      click_on 'Change Address'
+
+      @order_2.reload
+      expect(@order_2.address.id).to eq(@address_2.id)
     end
   end
 end
