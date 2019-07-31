@@ -1,4 +1,4 @@
-<%= link_to 'New Merchant', '/merchants/new' %>
+<%= link_to 'New Merchant', '/merchants/new' if current_admin? %>
 <% @merchants.each do |merchant| %>
   <section id='merchant-<%= merchant.id %>'>
     <% if current_admin? %>

@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe 'New Merchant Creation' do
   describe 'As a Visitor' do
     it 'I can link to a new merchant page from merchant index' do
+      @admin = User.create(name: 'Megan', email: 'admin@example.com', password: 'securepassword', role: :admin)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+      
       visit '/merchants'
 
       click_link 'New Merchant'
