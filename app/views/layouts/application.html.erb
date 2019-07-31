@@ -37,22 +37,22 @@
             <%= link_to 'Profile', profile_path, class:"nav-link" %>
           </li>
         <% end %>
-          <% if current_merchant_user? %>
-            <li class="nav-item">
-              <%= link_to 'Merchant Dashboard', merchant_dashboard_path, class:"nav-link" %>
-            </li>
-          <% elsif current_admin? %>
-            <li class="nav-item">
-              <%= link_to 'Admin Dashboard', admin_dashboard_path, class:"nav-link" %>
-            </li>
-          <% end %>
+        <% if current_merchant_user? %>
+          <li class="nav-item">
+            <%= link_to 'Merchant Dashboard', merchant_dashboard_path, class:"nav-link" %>
+          </li>
+        <% elsif current_admin? %>
+          <li class="nav-item">
+            <%= link_to 'Admin Dashboard', admin_dashboard_path, class:"nav-link" %>
+          </li>
+        <% end %>
         <% if current_user %>
           <li class="nav-item">
             <%= link_to 'Log Out', logout_path, class:"nav-link" %>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to 'Log In', login_path, method: :post, class:"nav-link" %>
+            <%= link_to 'Log In', login_path, class:"nav-link" %>
           </li>
           <li class="nav-item">
             <%= link_to 'Register', registration_path, class:"nav-link" %>
