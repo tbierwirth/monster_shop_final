@@ -5,6 +5,14 @@
 <p>Status: <%= @order.status %></p>
 <p><%= @order.count_of_items %> items</p>
 <p>Total: <%= number_to_currency(@order.grand_total) %></p>
+<% if @order.pending? %>
+  <%= form_for @order, url: update_order_address_path(@order.id) do |f| %>
+    <%= f.label :address %>
+    <%= f.collection_select :address_id, current_user.address_names, :to_s, :to_s %>
+
+    <%= f.submit 'Change Address' %>
+  <% end %>
+<% end %>
 <%= button_to 'Cancel Order', "/profile/orders/#{@order.id}", method: :delete if @order.pending? %>
 
 <h2>Order Items</h2>
